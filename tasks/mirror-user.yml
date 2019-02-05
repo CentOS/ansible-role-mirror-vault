@@ -1,0 +1,21 @@
+- name: Ensuring we have local unprivileged user owning mirror content
+  user:
+    name: "{{ vault_local_user }}"
+    comment: "Local CentOS mirror user"
+    group: "{{ vault_local_user }}"
+    home: "/home/{{ vault_local_user }}-home/"
+
+- name: Ensuring we have a place to store scripts (legacy compat)
+  file:
+    path: "/home/{{ vault_local_user }}-scripts"
+    state: directory
+    owner: "{{ vault_local_user }}"
+    group: "{{ vault_local_user }}"
+
+- name: Ensuring we have a place to store mirror content
+  file:
+    path: "{{ vault_local_path }}"
+    state: directory
+    owner: "{{ vault_local_user }}"
+    group: "{{ vault_local_user }}"
+    mode: 0755

@@ -1,0 +1,49 @@
+<VirtualHost *:80>
+ ServerAdmin webmaster@centos.org
+ ServerName vault.centos.org
+ ServerAlias {{ inventory_hostname }}-vault.centos.org
+ CustomLog logs/vault.centos.org_access.log combined
+ ErrorLog logs/vault.centos.org_error.log
+ DocumentRoot {{ vault_local_path }}
+ AddDescription "{{ inventory_hostname }}" server.id
+ ReadmeName /FOOTER.html
+ HeaderName /HEADER_AD.html
+ IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t FOOTER.html robots.txt
+
+ Header always set X-Xss-Protection "1; mode=block"
+ Header always set X-Content-Type-Options "nosniff"
+ Header always set Referrer-Policy "same-origin"
+ Header always set X-Frame-Options "SAMEORIGIN"
+
+#RewriteEngine on
+ RedirectMatch "(?<!boot)\.iso$" http://vault.centos.org/notonvault.html
+
+<Location "/.well-known/">
+    ProxyPass "http://cephas.centos.org/.well-known/"
+</Location>
+
+{% if vault_httpd_mod_ratelimit %}
+<IfVersion >= 2.4>
+ LoadModule ratelimit_module modules/mod_ratelimit.so
+  <Location "/">
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit {{ vault_httpd_rate_limit }}
+    SetEnv rate-initial-burst {{ vault_httpd_rate_limit * 1.5 }}
+  </Location>
+</IfVersion>
+{% endif %}
+
+ <Directory "{{ vault_local_path }}">
+  Options Indexes FollowSymLinks
+  AllowOverride Indexes
+  Options Indexes FollowSymLinks 
+  <IfVersion < 2.4>
+    Order allow,deny
+    Allow from all
+  </IfVersion>
+  <IfVersion >= 2.4>
+    IndexOptions FancyIndexing VersionSort NameWidth=* HTMLTable Charset=UTF-8
+    Require all granted
+  </IfVersion>
+ </Directory>
+</VirtualHost>

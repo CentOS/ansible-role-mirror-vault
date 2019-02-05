@@ -1,0 +1,4 @@
+#!/bin/bash
+# called by Zabbix to calculate difference between rsync operations
+
+zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -k vault.diff -o $(( $(date +%s) - $(cat {{ vault_local_path }}/TIME) )) >/dev/null

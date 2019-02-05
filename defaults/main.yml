@@ -1,0 +1,33 @@
+# default variables for mirror-vault role
+
+# Full rsync path::module to use to rsync centos mirror content from
+vault_rsync_from: node1.centos.org
+vault_rsync_from_module: centos-full-store
+vault_rsync_from_fallback: node0.centos.org
+
+# default path where to sync content to
+vault_local_path: /home/centos-store/
+
+# Default user owning all the files
+vault_local_user: centos
+
+# Do we also want to become member of the vault network
+# So opening up rsyncd to oustide world to let them sync from us 
+vault_rsyncd: True
+
+# We'll parse inventory to allow some IPs based on hostgroup-role-mirror-vault vars
+# But we can also add other ones (outside of ansible for example)
+vault_rsyncd_allow_from:
+  - 192.168.1.1
+  - 172.16.31.230
+
+# using mod_ratelimit on httpd to limit bw usage?
+vault_httpd_mod_ratelimit: no
+vault_httpd_rate_limit: 1536
+
+
+# Zabbix/monitoring part
+vault_zabbix_templates:
+  - Template CentOS Vault server
+vault_zabbix_groups:
+  - CentOS Vault servers

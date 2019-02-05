@@ -1,0 +1,46 @@
+#!/bin/bash
+
+cd /home/{{ vault_local_user }}-scripts
+
+SYNCTIME=`date +%Y%m%d%H%M`
+lockfile="/home/{{ vault_local_user }}-scripts/rsync-master-vault.pid"
+running="yes"
+
+do_rsync() {
+
+rsync --exclude FOOTER.html --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --exclude repodata --exclude headers --timeout=1200 -avzH $1::centos-full-store/ /home/centos-store/ > /home/centos-scripts/$SYNCTIME.vault.log 2>&1
+rsync --exclude FOOTER.html --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --delete -avzH $1::centos-full-store/ /home/centos-store/ >> /home/centos-scripts/$SYNCTIME.vault.log 2>&1
+
+for log in `ls *.vault.log `
+  do
+   if [ "$log" != "$SYNCTIME.vault.log" ]; then
+    rm -f $log
+   fi
+  done
+
+}
+
+if [ -z $1 ]; then
+  echo "need a machine name to rsync from as the first param to this script"
+  exit 1
+fi
+
+if [ ! -e ${lockfile} ]; then
+   trap 'rm -f "$lockfile"; exit $?' INT TERM EXIT
+   echo "$$" > $lockfile
+   do_rsync $1
+
+   rm -f "$lockfile"
+   trap - INT TERM EXIT
+else
+   proc=$(cat ${lockfile})
+   if [ $(ps -eopid | grep -c $proc) -eq 1 ]; then
+     #still running
+     echo "Old process still running"
+     exit 27
+   else
+     #old process dead
+     rm -f ${lockfile}
+   fi
+fi
+
