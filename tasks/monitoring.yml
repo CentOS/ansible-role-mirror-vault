@@ -3,8 +3,8 @@
     name: zabbix-server
     tasks_from: agent_config
   vars:
-    zabbix_templates: "{{ mirror_zabbix_templates }}"
-    zabbix_groups: "{{ mirror_zabbix_groups }}"
+    zabbix_templates: "{{ vault_zabbix_templates }}"
+    zabbix_groups: "{{ vault_zabbix_groups }}"
   delegate_to: "{{ zabbix_api_srv }}"  
   tags:
     - monitoring
