@@ -17,4 +17,5 @@
     state: directory
     owner: "{{ vault_local_user }}"
     group: "{{ vault_local_user }}"
+    setype: user_home_dir_t
     mode: 0755
