@@ -8,8 +8,8 @@ running="yes"
 
 do_rsync() {
 
-rsync --exclude FOOTER.html --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --exclude repodata --exclude headers --timeout=1200 -avzH $1::centos-full-store/ /home/centos-store/ > /home/centos-scripts/$SYNCTIME.vault.log 2>&1
-rsync --exclude FOOTER.html --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --delete -avzH $1::centos-full-store/ /home/centos-store/ >> /home/centos-scripts/$SYNCTIME.vault.log 2>&1
+rsync --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --exclude repodata --exclude headers --timeout=1200 -avzH $1::centos-full-store/ /home/centos-store/ > /home/centos-scripts/$SYNCTIME.vault.log 2>&1
+rsync --delay-updates --exclude ".~tmp~" --exclude ".*iso.*" --exclude ".*.rpm.*" --delete -avzH $1::centos-full-store/ /home/centos-store/ >> /home/centos-scripts/$SYNCTIME.vault.log 2>&1
 
 for log in `ls *.vault.log `
   do
