@@ -2,7 +2,7 @@
 [centos-full-store]
        path = {{ vault_local_path }}
        comment = CentOS Vault store
-       exclude = FOOTER.html
+       exclude = .~tmp~
        list = no
        hosts allow = {% for host in groups['hostgroup-role-mirror-vault'] %}{{ hostvars[host].ip }} {% if hostvars[host].ipv6 is defined %}{{ hostvars[host].ipv6 }} {% endif %}{% endfor %}{% for ip in vault_rsyncd_allow_from %}{{ ip }} {% endfor %}
        hosts deny = *
