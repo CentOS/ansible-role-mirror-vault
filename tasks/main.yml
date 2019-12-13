@@ -2,6 +2,9 @@
 
 - import_role:
     name: httpd
+  vars:
+    httpd_html_autoindex_title: "CentOS Vault Mirror"
+    httpd_html_autoindex_content: "{{ vault_httpd_header }}" 
 
 - name: Adding vhost file
   template:

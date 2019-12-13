@@ -24,6 +24,22 @@ vault_rsyncd_allow_from:
 # using mod_ratelimit on httpd to limit bw usage?
 vault_httpd_mod_ratelimit: no
 vault_httpd_rate_limit: 1536
+vault_httpd_header: |
+  <div class="alert alert-danger" role="alert">
+  This is _NOT_ an updated tree for installing CentOS Linux : It is a snapshot of the older trees that have been removed from the main CentOS servers as new point releases are released. <br>
+  This is provided for reference and to provide access to older archived versions, and we do not put security updates into the trees on this server.<br>
+  Please see this <a href="http://www.centos.org/download">link</a> for active versions of CentOS Linux
+  </div>
+  
+  <p>The Following external mirrors (not monitored by the CentOS Infra team !) provide direct downloads for archived content, through http and/or rsync:</p>
+  <ul>
+  <li><a href="http://archive.kernel.org/centos-vault/">http://archive.kernel.org/centos-vault/</a>
+  <li>rsync://archive.kernel.org::centos-vault/
+  <li><a href="http://linuxsoft.cern.ch/centos-vault/">http://linuxsoft.cern.ch/centos-vault/</a>
+  <li>rsync://linuxsoft.cern.ch/centos-vault/
+  <li><a href=""http://mirror.nsc.liu.se/centos-store/>/http://mirror.nsc.liu.se/centos-store/</a>
+  <li>rsync://mirror.nsc.liu.se::centos-store/
+  </ul>
 
 
 # Zabbix/monitoring part
