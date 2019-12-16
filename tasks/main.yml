@@ -11,8 +11,10 @@
     src: 40_vault.conf.j2
     dest: /etc/httpd/conf.d/40_vault.conf
   notify:
-    - restart_httpd
- 
+    - reload_httpd
+  tags:
+    - httpd 
+
 - name: Ensuring some selinux booleans are enabled
   seboolean:
     name: "{{ item }}"
