@@ -6,8 +6,8 @@
  ErrorLog logs/vault.centos.org_error.log
  DocumentRoot {{ vault_local_path }}
  AddDescription "{{ inventory_hostname }}" server.id
- ReadmeName /FOOTER.html
- HeaderName /HEADER_AD.html
+ HeaderName /centos-design/header-centos-vault-mirror.html
+ #ReadmeName /centos-design/footer.html
  IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t FOOTER.html robots.txt
 
  Header always set X-Xss-Protection "1; mode=block"
@@ -42,7 +42,8 @@
     Allow from all
   </IfVersion>
   <IfVersion >= 2.4>
-    IndexOptions FancyIndexing VersionSort NameWidth=* HTMLTable Charset=UTF-8
+    IndexOptions NameWidth=* 
+    IndexStyleSheet "/centos-design/css/centos-listindex.css"
     Require all granted
   </IfVersion>
  </Directory>
