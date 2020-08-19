@@ -5,6 +5,7 @@
   template:
     src: 09_full-store.conf.j2
     dest: /etc/rsyncd.d/09_full-store.conf
+    mode: 0644
   notify:
     - rebuild_rsyncd
 
