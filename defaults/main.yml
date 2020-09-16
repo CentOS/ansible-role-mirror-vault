@@ -37,7 +37,7 @@ vault_httpd_header: |
   <li>rsync://archive.kernel.org::centos-vault/
   <li><a href="http://linuxsoft.cern.ch/centos-vault/">http://linuxsoft.cern.ch/centos-vault/</a>
   <li>rsync://linuxsoft.cern.ch/centos-vault/
-  <li><a href=""http://mirror.nsc.liu.se/centos-store/>http://mirror.nsc.liu.se/centos-store/</a>
+  <li><a href="http://mirror.nsc.liu.se/centos-store/">http://mirror.nsc.liu.se/centos-store/</a>
   <li>rsync://mirror.nsc.liu.se::centos-store/
   </ul>
 
