@@ -19,7 +19,7 @@
  #Redirecting to https now
  RewriteCond $1 !^.well-known
  RewriteCond %{HTTPS} !=on
- RewriteRule ^/?(.*) https://vault.centos.org/$1 [R,L]
+ RewriteRule ^/?(.*) https://vault.centos.org/$1 [R=301,L]
 
  RedirectMatch "(?<!boot)\.iso$" http://vault.centos.org/notonvault.html
 
