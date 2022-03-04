@@ -1,8 +1,11 @@
 <VirtualHost *:443>
  ServerAdmin webmaster@centos.org
- ServerName vault.centos.org
+{% if vault_httpd_origin_node %}
+ ServerName {{ vault_httpd_origin_hostname }}
+{% else %}
+ ServerName {{ vault_httpd_hostname }}
+{% endif %}
  DocumentRoot {{ vault_local_path }}
- #ReadmeName /centos-design/footer.html
  HeaderName /centos-design/header-centos-vault-mirror.html
  IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t FOOTER.html
 
@@ -12,8 +15,8 @@
  Header always set Referrer-Policy "same-origin"
  Header always set X-Frame-Options "SAMEORIGIN"
 
-{% if vault_httpd_mod_ratelimit %}
-# Spam rate-limit for bw usage
+{% if vault_httpd_mod_ratelimit and not vault_httpd_origin_node %}
+# Spam rate-limit for bw usage, not included if used a origin node
 <IfVersion >= 2.4>
  LoadModule ratelimit_module modules/mod_ratelimit.so
   <Location "/">
@@ -24,11 +27,12 @@
 </IfVersion>
 {% endif %}
 
-
-<Location "/.well-known/">
-    ProxyPass "http://cephas.centos.org/.well-known/"
-</Location>
-
+{% if vault_httpd_origin_node %}
+# Let's ensure that we'll deny request if secretheader shared with cdn upstream doesn't match
+RewriteEngine on
+RewriteCond %{HTTP:X-CDNSecretHeader} !^{{ vault_httpd_origin_secret }}$
+RewriteRule ^ - [F]
+{% endif %}
 
 #Directory Permissions
  <Directory "{{ vault_local_path }}">
@@ -51,9 +55,16 @@ LogLevel warn
 SSLEngine on
 {{ httpd_tls_ciphers }}
 
-SSLCertificateFile /etc/pki/tls/certs/vault.centos.org.crt
-SSLCertificateKeyFile /etc/pki/tls/private/vault.centos.org.key
-SSLCertificateChainFile /etc/pki/tls/certs/vault.centos.org-CAChain.crt
+{% if vault_httpd_origin_node %}
+SSLCertificateFile /etc/pki/tls/certs/{{ vault_httpd_origin_hostname }}.crt
+SSLCertificateKeyFile /etc/pki/tls/private/{{ vault_httpd_origin_hostname }}.key
+SSLCertificateChainFile /etc/pki/tls/certs/{{ vault_httpd_origin_hostname }}-CAChain.crt
+{% else %}
+SSLCertificateFile /etc/pki/tls/certs/{{ vault_httpd_hostname }}.crt
+SSLCertificateKeyFile /etc/pki/tls/private/{{ vault_httpd_hostname }}.key
+SSLCertificateChainFile /etc/pki/tls/certs/{{ vault_httpd_hostname }}-CAChain.crt
+{% endif %}
+
 <Files ~ "\.(cgi|shtml|phtml|php3?)$">
     SSLOptions +StdEnvVars
 </Files>

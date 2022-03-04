@@ -11,9 +11,18 @@
     name: httpd
     tasks_from: pki-tls
   vars:
-    pki_hostname: vault.centos.org
+    pki_hostname: "{{ vault_httpd_hostname }}"
   tags:
     - tls
+
+- import_role:
+    name: httpd
+    tasks_from: pki-tls
+  vars:
+    pki_hostname: "{{ vault_httpd_origin_hostname }}"
+  tags:
+    - tls
+  when: vault_httpd_origin_node  
 
 - name: Adding vhost file
   template:

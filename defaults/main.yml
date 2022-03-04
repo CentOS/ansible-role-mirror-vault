@@ -21,9 +21,20 @@ vault_rsyncd_allow_from:
   - 192.168.1.1
   - 172.16.31.230
 
+# httpd settings
+vault_httpd_hostname: vault.centos.org
+
 # using mod_ratelimit on httpd to limit bw usage?
 vault_httpd_mod_ratelimit: no
 vault_httpd_rate_limit: 1536
+
+# CDN section, if used as origin server
+# Are we origin node (True|False) and if so, under which specific hostname
+vault_httpd_origin_node: False
+vault_httpd_origin_hostname:  # if used as origin, different hostname and different TLS cert too
+vault_httpd_origin_secret:    # Which shared header to use between cdn and us, origin server to restrict access
+
+# html header for mod_autoindex, displaying banner/info
 vault_httpd_header: |
   <div class="alert alert-danger" role="alert">
   This is _NOT_ an updated tree for installing CentOS Linux : It is a snapshot of the older trees that have been removed from the main CentOS servers as new point releases are released. <br>
