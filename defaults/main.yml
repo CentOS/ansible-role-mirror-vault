@@ -35,23 +35,25 @@ vault_httpd_origin_hostname:  # if used as origin, different hostname and differ
 vault_httpd_origin_secret:    # Which shared header to use between cdn and us, origin server to restrict access
 
 # html header for mod_autoindex, displaying banner/info
-vault_httpd_header: |
-  <div class="alert alert-danger" role="alert">
-  This is _NOT_ an updated tree for installing CentOS Linux : It is a snapshot of the older trees that have been removed from the main CentOS servers as new point releases are released. <br>
-  This is provided for reference and to provide access to older archived versions, and we do not put security updates into the trees on this server.<br>
-  Please see this <a href="http://www.centos.org/download">link</a> for active versions of CentOS Linux
-  </div>
-  
-  <p>The Following external mirrors (not monitored by the CentOS Infra team !) provide direct downloads for archived content, through http and/or rsync:</p>
-  <ul>
-  <li><a href="http://archive.kernel.org/centos-vault/">http://archive.kernel.org/centos-vault/</a>
-  <li>rsync://archive.kernel.org::centos-vault/
-  <li><a href="http://linuxsoft.cern.ch/centos-vault/">http://linuxsoft.cern.ch/centos-vault/</a>
-  <li>rsync://linuxsoft.cern.ch/centos-vault/
-  <li><a href="http://mirror.nsc.liu.se/centos-store/">http://mirror.nsc.liu.se/centos-store/</a>
-  <li>rsync://mirror.nsc.liu.se::centos-store/
-  </ul>
-
+mirror_vault_header_page:
+  title: 'CentOS Vault Mirror'
+  title_lead: ''
+  with_manifestation: 'CentOS Vault Mirror'
+  with_content:
+    - element: p
+      element_class: alert alert-danger
+      element_content: >-
+        This is _NOT_ an updated tree for installing CentOS Linux : It is a snapshot of the older trees that have been removed from the main CentOS servers as new point releases are released. <br>
+        This is provided for reference and to provide access to older archived versions, and we do not put security updates into the trees on this server.<br>
+        Please see this <a href="http://www.centos.org/download">link</a> for active versions of CentOS Linux
+    - element: p
+      element_content: >-
+        The Following external mirrors (not monitored by the CentOS Infra team !) provide direct downloads for archived content, through http and/or rsync:<br>
+        <ul>
+        <li>archive.kernel.org : <a href="http://archive.kernel.org/centos-vault/">http</a> - <a href="rsync://archive.kernel.org::centos-vault/">rsync</a>
+        <li>linuxsoft.cern.ch : <a href="http://linuxsoft.cern.ch/centos-vault/">http</a> - <a href="rsync://linuxsoft.cern.ch/centos-vault/">rsync</a>
+        <li>mirror.nsc.liu : <a href="http://mirror.nsc.liu.se/centos-store/">http</a> - <a href="rsync://mirror.nsc.liu.se::centos-store/">rsync</a>
+        </ul>
 
 # Zabbix/monitoring part
 vault_zabbix_templates:

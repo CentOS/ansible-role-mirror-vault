@@ -4,8 +4,14 @@
     name: httpd
   vars:
     httpd_tls: True
-    httpd_html_autoindex_title: "CentOS Vault Mirror"
-    httpd_html_autoindex_content: "{{ vault_httpd_header }}" 
+
+- import_role:
+    name: httpd
+    tasks_from: custom-header
+  vars: 
+    - httpd_custom_header_page: "{{ mirror_vault_header_page }}"
+  tags:
+    - theme
 
 - import_role:
     name: httpd
